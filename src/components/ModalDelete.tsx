@@ -7,15 +7,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { usersSlice } from '../redux/slices/user.slice';
+import type { AppDispatch, RootState } from '../redux/store';
 
 export default function ModalDelete() {
-  const [open, setOpen] = React.useState(false);
-    const { isDelete } = useSelector(state => state.users);
+    const { isDelete } = useSelector((state: RootState) => state.users);
     const dispatch = useDispatch<AppDispatch>();
-    console.log(isDelete)
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleDeleteUser = () => {
         dispatch(usersSlice.actions.setDeleteUser());
@@ -23,29 +19,26 @@ export default function ModalDelete() {
     }
 
   return (
-    <React.Fragment>
-      <Dialog
-        open={isDelete}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => dispatch(usersSlice.actions.setModalDelete(false))}>Cancel</Button>
-          <Button onClick={handleDeleteUser} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </React.Fragment>
+    <Dialog
+      open={isDelete}
+      onClose={() => dispatch(usersSlice.actions.setModalDelete(false))}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        Delete user
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Are you sure you want to delete this user?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => dispatch(usersSlice.actions.setModalDelete(false))}>Cancel</Button>
+        <Button onClick={handleDeleteUser} autoFocus>
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

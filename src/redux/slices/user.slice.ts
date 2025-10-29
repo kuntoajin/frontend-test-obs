@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../store'; // sesuaikan path jika perlu
 import { InitialUserValue } from '../../utils/user.value';
-import type { User } from '../../types/user.type';
+import type { DetailUser, User } from '../../types/user.type';
 
 export const updateUser = createAsyncThunk<User, Partial<User> & { id: string | number }, { rejectValue: string }>(
     'user/updateUser',
@@ -32,24 +31,22 @@ export const usersSlice = createSlice({
         setLoading(state, action: PayloadAction<boolean>) {
             state.isLoading = action.payload;
         },
-        setUser(state, action: PayloadAction<User | null>) {
+        setUser(state, action: PayloadAction<DetailUser[]>) {
             state.listUsers = action.payload;
         },
-        setSelectedUser(state, action: PayloadAction<number | null>) {
-            state.selectedUserById = state.listUsers.find((item) => item.id === action.payload);
+        setSelectedUser(state, action: PayloadAction<number>) {
+            state.selectedUserById = state.listUsers.find((item) => item.id === action.payload) || ({} as DetailUser);
         },
         setIsModal(state, action: PayloadAction<boolean>) {
             state.isModal = action.payload;
         },
-        setAddUser(state, action: PayloadAction<Partial<User>>) {
+        setAddUser(state, action: PayloadAction<DetailUser>) {
             state.listUsers = [action.payload, ...state.listUsers]
         },
-        setEditUser(state, action) {
-            const keys = Object.keys(action.payload);
+        setEditUser(state, action: PayloadAction<DetailUser>) {
             const getUserId = state.listUsers.findIndex((item) => item.email === action.payload.email);
-            console.log(keys)
-            keys.forEach((key) => {
-                state.listUsers[getUserId][key] = action.payload[key]; 
+            (Object.keys(action.payload) as (keyof DetailUser)[]).forEach((key) => {
+                (state.listUsers[getUserId] as any)[key] = action.payload[key];
             })
         },
         setType(state, action: PayloadAction<'edit' | 'delete' | 'add'>) {
@@ -67,6 +64,6 @@ export const usersSlice = createSlice({
     }
 });
 
-export const { setUser, clearUser, setError } = usersSlice.actions;
+export const { setUser, setError } = usersSlice.actions;
 
 export default usersSlice.reducer;

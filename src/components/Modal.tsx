@@ -7,19 +7,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { usersSlice } from '../redux/slices/user.slice';
+import type { AppDispatch, RootState } from '../redux/store';
 
 export default function FormEdit() {
-    const [open, setOpen] = React.useState(false);
-    const { isModal, selectedUserById, type } = useSelector(state => state.users);
+    const { isModal, selectedUserById, type } = useSelector((state: RootState) => state.users);
     const dispatch = useDispatch<AppDispatch>();
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -41,7 +33,7 @@ export default function FormEdit() {
 
     return (
         <React.Fragment>
-        <Dialog open={isModal} onClose={handleClose}>
+        <Dialog open={isModal} onClose={() => dispatch(usersSlice.actions.setModalDelete(false))}>
             <DialogTitle>Edit User</DialogTitle>
             <DialogContent>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>

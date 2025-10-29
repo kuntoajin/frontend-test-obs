@@ -1,7 +1,27 @@
 {
   "files": [],
+  "composite": true,
+  "compileOnSave": true,
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "lib": ["DOM", "ES2015"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "ES2015",
+    "noEmit": false
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "eslint.config.js" 
+  ],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }

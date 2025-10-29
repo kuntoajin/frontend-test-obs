@@ -1,27 +1,14 @@
-export const InitialUserValue = {
+import type { User } from "../types/user.type";
+
+export const InitialUserValue: User = {
     listUsers: [],
-    // id: 0,
-    // name: '',
-    // username: '',
-    // email: '',
-    // address: {
-    //     street: '',
-    //     suite: '',
-    //     city: '',
-    //     zipcode: '',
-    //     geo: {
-    //         lat: '',
-    //         lng: ''
-    //     }
-    // },
-    // phone: '',
-    // website: '',
-    // company: {
-    //     name: '',
-    //     catchPhrase: '',
-    //     bs: ''
-    // },
-    selectedUserById: {},
+    selectedUserById: {
+        name: '',
+        username: '',
+        email: '',
+        phone: '',
+        website: ''
+    },
     isLoading: false,
     isModal: false,
     isDelete: false,

@@ -17,15 +17,22 @@ export type Company = {
   bs: string;
 }
 
-export type User = {
-  id: number;
+export type DetailUser = {
+  id?: number;
   name: string;
   username: string;
   email: string;
-  address: Address;
   phone: string;
   website: string;
-  company: Company;
+}
+
+export type User = {
+  listUsers: DetailUser[];
+  selectedUserById: DetailUser;
+  isLoading: boolean,
+  isModal: boolean,
+  isDelete: boolean,
+  type: 'delete' | 'edit' | 'add' | '';
 }
 
 export type UserList = User[];

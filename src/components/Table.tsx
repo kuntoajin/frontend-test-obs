@@ -7,13 +7,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import type { User } from '../types/user.type';
+import type { DetailUser } from '../types/user.type';
 import MenuActions from './MenuActions';
 import FormEdit from './Modal';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { usersSlice } from '../redux/slices/user.slice';
 import ModalDelete from './ModalDelete';
+import { AppDispatch, RootState } from '../redux/store';
 
 interface Column {
   id: string;
@@ -84,10 +85,10 @@ const rows = [
   createData('Brazil', 'BR', 210147125, 8515767),
 ];
 
-export default function TableUsers({ data }: { data: User[] | null }) {
+export default function TableUsers({ data }: { data: DetailUser[] | null }) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const { isLoading } = useSelector(state => state.users);
+    const { isLoading } = useSelector((state: RootState) => state.users);
     const dispatch = useDispatch<AppDispatch>();
 
 
@@ -131,11 +132,11 @@ export default function TableUsers({ data }: { data: User[] | null }) {
                 <TableBody>
                     {data
                     ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    ?.map((row: User) => {
+                    ?.map((row: DetailUser) => {
                         return (
                         <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                             {columns.map((column) => {
-                            const value = (row as User)[column.id];
+                            const value = (row as DetailUser)[column.id];
                             return (
                                 <TableCell key={column.id} align={column.align}>
                                     {column.id === 'action' ? <MenuActions id={row.id} /> : value}
