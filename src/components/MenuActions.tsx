@@ -8,6 +8,8 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useDispatch } from 'react-redux';
 import { usersSlice } from '../redux/slices/user.slice';
+import type { AppDispatch } from '../redux/store';
+import type { User } from '../types/user.type';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -43,10 +45,7 @@ const StyledMenu = styled((props: MenuProps) => (
         }),
       },
       '&:active': {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity,
-        ),
+        backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
       },
     },
     ...theme.applyStyles('dark', {
@@ -56,26 +55,26 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 export default function MenuActions({ id }: { id: number }) {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const dispatch = useDispatch<AppDispatch>();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const dispatch = useDispatch<AppDispatch>();
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-    const handleMenuClick = (type) => {
-        setAnchorEl(null);
-        dispatch(usersSlice.actions.setIsModal(true));
-        dispatch(usersSlice.actions.setSelectedUser(id));
-        dispatch(usersSlice.actions.setType(type));
-    };
+  const handleMenuClick = (type: User['type']) => {
+    setAnchorEl(null);
+    dispatch(usersSlice.actions.setIsModal(true));
+    dispatch(usersSlice.actions.setSelectedUser(id));
+    dispatch(usersSlice.actions.setType(type));
+  };
 
-    const handleDeleteModal = () => {
-        dispatch(usersSlice.actions.setModalDelete(true));
-        dispatch(usersSlice.actions.setSelectedUser(id));
-    }
-    
+  const handleDeleteModal = () => {
+    dispatch(usersSlice.actions.setModalDelete(true));
+    dispatch(usersSlice.actions.setSelectedUser(id));
+  };
+
   return (
     <div>
       <Button
