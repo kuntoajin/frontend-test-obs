@@ -23,11 +23,17 @@ export const usersSlice = createSlice({
       state.listUsers = [action.payload, ...state.listUsers];
     },
     setEditUser(state, action: PayloadAction<DetailUser>) {
-      const getUserId = state.listUsers.findIndex(item => item.email === action.payload.email);
-      (Object.keys(action.payload) as (keyof DetailUser)[]).forEach(key => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (state.listUsers[getUserId] as any)[key] = action.payload[key];
-      });
+      const getUserId = state.listUsers.findIndex(item => item.id === action.payload.id);
+      if (getUserId < 0) return;
+
+      try {
+        (Object.keys(action.payload) as (keyof DetailUser)[]).forEach((key: keyof DetailUser) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (state.listUsers[getUserId] as any)[key] = action.payload[key];
+        });
+      } catch (error) {
+        console.error('Error updating user:', error);
+      }
     },
     setType(state, action: PayloadAction<'edit' | 'delete' | 'add' | ''>) {
       state.type = action.payload;

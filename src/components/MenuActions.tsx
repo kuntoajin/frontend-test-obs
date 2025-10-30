@@ -62,7 +62,7 @@ export default function MenuActions({ id }: { id?: number }) {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
+  console.log(id);
   const handleMenuClick = (type: User['type']) => {
     setAnchorEl(null);
     dispatch(usersSlice.actions.setIsModal(true));
