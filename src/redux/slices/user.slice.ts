@@ -12,7 +12,7 @@ export const usersSlice = createSlice({
     setUser(state, action: PayloadAction<DetailUser[]>) {
       state.listUsers = action.payload;
     },
-    setSelectedUser(state, action: PayloadAction<number>) {
+    setSelectedUser(state, action: PayloadAction<number | undefined>) {
       state.selectedUserById =
         state.listUsers.find(item => item.id === action.payload) || ({} as DetailUser);
     },
