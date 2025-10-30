@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/menuactions.tsx","./src/components/modal.tsx","./src/components/modaldelete.tsx","./src/components/table.tsx","./src/redux/slices/user.slice.ts","./src/redux/store/index.ts","./src/redux/thunk/user.thunk.ts","./src/types/user.type.ts","./src/utils/user.value.ts"],"errors":true,"version":"5.9.3"}
