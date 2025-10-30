@@ -1,7 +1,7 @@
 export type Geo = {
   lat: string;
   lng: string;
-}
+};
 
 export type Address = {
   street: string;
@@ -9,13 +9,13 @@ export type Address = {
   city: string;
   zipcode: string;
   geo: Geo;
-}
+};
 
 export type Company = {
   name: string;
   catchPhrase: string;
   bs: string;
-}
+};
 
 export type DetailUser = {
   id?: number;
@@ -24,15 +24,16 @@ export type DetailUser = {
   email: string;
   phone: string;
   website: string;
-}
+  [key: string]: string | number | undefined;
+};
 
 export type User = {
   listUsers: DetailUser[];
   selectedUserById: DetailUser;
-  isLoading: boolean,
-  isModal: boolean,
-  isDelete: boolean,
+  isLoading: boolean;
+  isModal: boolean;
+  isDelete: boolean;
   type: 'delete' | 'edit' | 'add' | '';
-}
+};
 
 export type UserList = User[];

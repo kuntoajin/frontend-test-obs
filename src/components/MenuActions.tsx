@@ -54,7 +54,7 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-export default function MenuActions({ id }: { id: number }) {
+export default function MenuActions({ id }: { id?: number }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch<AppDispatch>();
