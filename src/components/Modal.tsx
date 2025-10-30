@@ -35,11 +35,13 @@ export default function FormEdit() {
   return (
     <React.Fragment>
       <Dialog open={isModal} onClose={() => dispatch(usersSlice.actions.setModalDelete(false))}>
-        <DialogTitle>Edit User</DialogTitle>
+        <DialogTitle>{type?.charAt(0).toUpperCase() + type.slice(1)} User</DialogTitle>
         <DialogContent>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-            <img src={`https://picsum.photos/seed/${selectedUserById?.id}200/200`} alt="image" />
-          </div>
+          {type === 'edit' && (
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <img src={`https://picsum.photos/seed/${selectedUserById?.id}200/200`} alt="image" />
+            </div>
+          )}
           <form onSubmit={handleSubmit} id="subscription-form">
             <TextField
               autoFocus

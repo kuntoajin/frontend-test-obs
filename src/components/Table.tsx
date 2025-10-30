@@ -21,7 +21,6 @@ interface Column {
   label: string;
   minWidth?: number;
   align?: 'right';
-  format?: (value: number) => string;
 }
 
 const columns: readonly Column[] = [
@@ -42,7 +41,7 @@ const columns: readonly Column[] = [
     label: 'Website',
     minWidth: 170,
   },
-    {
+  {
     id: 'action',
     label: 'Action',
     minWidth: 170,
@@ -57,12 +56,7 @@ interface Data {
   density: number;
 }
 
-function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number,
-): Data {
+function createData(name: string, code: string, population: number, size: number): Data {
   const density = population / size;
   return { name, code, population, size, density };
 }
@@ -86,81 +80,91 @@ const rows = [
 ];
 
 export default function TableUsers({ data }: { data: DetailUser[] | null }) {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const { isLoading } = useSelector((state: RootState) => state.users);
-    const dispatch = useDispatch<AppDispatch>();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const { isLoading } = useSelector((state: RootState) => state.users);
+  const dispatch = useDispatch<AppDispatch>();
 
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
 
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
+  const handleAddModal = () => {
+    dispatch(usersSlice.actions.setIsModal(true));
+    dispatch(usersSlice.actions.setType('add'));
+  };
 
-    const handleAddModal = () => {
-        dispatch(usersSlice.actions.setIsModal(true));
-        dispatch(usersSlice.actions.setType('add'));
-    }
-
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-        <Button variant="contained" sx={{ mb: 2 }} onClick={handleAddModal}>Add User</Button>
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440, overflowX: 'auto' }}>
-                <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                    <TableRow>
-                    {columns.map((column) => (
-                        <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{ minWidth: column.minWidth }}
-                        >
-                        {column.label}
-                        </TableCell>
-                    ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {data
-                    ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    ?.map((row: DetailUser) => {
-                        return (
-                        <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                            {columns.map((column) => {
-                            const value = (row as DetailUser)[column.id];
-                            return (
-                                <TableCell key={column.id} align={column.align}>
-                                    {column.id === 'action' ? <MenuActions id={row.id} /> : value}
-                                </TableCell>
-                            );
-                            })}
-                        </TableRow>
-                        );
-                    })}
-                </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          marginTop: '20px',
+        }}
+      >
+        <Paper sx={{ width: 1200, overflow: 'hidden' }}>
+          <Button variant="contained" sx={{ mt: 2, ml: 2 }} onClick={handleAddModal}>
+            Add User
+          </Button>
+          <TableContainer sx={{ overflowX: 'auto' }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map(column => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  ?.map((row: DetailUser) => {
+                    return (
+                      <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                        {columns.map(column => {
+                          const value = (row as DetailUser)[column.id];
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {column.id === 'action' ? <MenuActions id={row.id} /> : value}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Paper>
-        <FormEdit />
-        <ModalDelete />
+      </div>
+      <FormEdit />
+      <ModalDelete />
     </>
   );
 }
