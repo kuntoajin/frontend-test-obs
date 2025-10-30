@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { usersSlice } from '../redux/slices/user.slice';
 import type { AppDispatch, RootState } from '../redux/store';
+import { DetailUser } from '../types/user.type';
 
 export default function FormEdit() {
   const { isModal, selectedUserById, type } = useSelector((state: RootState) => state.users);
@@ -17,7 +18,7 @@ export default function FormEdit() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const formJson = Object.fromEntries((formData as any).entries());
+    const formJson = Object.fromEntries((formData as any).entries()) as DetailUser;
     if (type === 'add') {
       dispatch(usersSlice.actions.setAddUser(formJson));
     } else if (type === 'edit') {

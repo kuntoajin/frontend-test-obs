@@ -1,29 +1,6 @@
-import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { InitialUserValue } from '../../utils/user.value';
-import type { DetailUser, User } from '../../types/user.type';
-
-export const updateUser = createAsyncThunk<
-  User,
-  Partial<User> & { id: string | number },
-  { rejectValue: string }
->('user/updateUser', async (payload, { rejectWithValue }) => {
-  try {
-    const { id, ...body } = payload;
-    const res = await fetch(`/api/users/${encodeURIComponent(String(id))}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) {
-      const text = await res.text();
-      return rejectWithValue(text || res.statusText);
-    }
-    const data = (await res.json()) as User;
-    return data;
-  } catch (err) {
-    return rejectWithValue((err as Error).message);
-  }
-});
+import type { DetailUser } from '../../types/user.type';
 
 export const usersSlice = createSlice({
   name: 'users',
@@ -67,6 +44,6 @@ export const usersSlice = createSlice({
   },
 });
 
-export const { setUser, setError } = usersSlice.actions;
+export const { setUser } = usersSlice.actions;
 
 export default usersSlice.reducer;
