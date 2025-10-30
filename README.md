@@ -1,73 +1,80 @@
-# React + TypeScript + Vite
+# obssolution-test
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![Lint](https://img.shields.io/badge/lint-passing-brightgreen)
+![Test](https://img.shields.io/badge/tests-passing-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Vite](https://img.shields.io/badge/Vite-7.x-646CFF?logo=vite)
+![React](https://img.shields.io/badge/React-19.x-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)
 
-Currently, two official plugins are available:
+A front-end React project built with **Vite**, **TypeScript**, **Material UI (MUI)**, and **Redux Toolkit**.  
+This project includes modern tooling for code quality (ESLint, Prettier), automated testing (Jest + React Testing Library), and Git hooks (Husky + lint-staged).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- ⚡ **Vite** — Fast and modern build tool for React apps.  
+- 🧠 **TypeScript** — Type-safe JavaScript development.  
+- 🎨 **Material UI (MUI)** — Prebuilt UI components with styling via Emotion.  
+- 🔁 **Redux Toolkit** — Simplified and scalable state management.  
+- ✅ **Testing** — Configured with Jest, jsdom, and React Testing Library.  
+- 🧹 **Linting & Formatting** — ESLint and Prettier integrated with Husky and lint-staged.  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📦 Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Category          | Technology |
+|--------------------|-------------|
+| Framework          | [React 19](https://react.dev/) |
+| Language           | [TypeScript 5.9](https://www.typescriptlang.org/) |
+| Build Tool         | [Vite 7](https://vitejs.dev/) |
+| State Management   | [Redux Toolkit](https://redux-toolkit.js.org/) |
+| UI Components      | [Material UI](https://mui.com/) |
+| Styling Engine     | [Emotion](https://emotion.sh/docs/introduction) |
+| Testing            | [Jest](https://jestjs.io/) + [Testing Library](https://testing-library.com/) |
+| Linting/Formatting | [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/) |
+| Git Hooks          | [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/okonet/lint-staged) |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧰 Available Scripts
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+| Command | Description |
+|----------|-------------|
+| `npm run dev` | Start the development server |
+| `npm run build` | Build the production bundle |
+| `npm run preview` | Preview the built application |
+| `npm run lint` | Run ESLint and automatically fix issues |
+| `npm run test` | Run Jest test suites |
+| `npm run prepare` | Set up Husky for Git hooks |
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧪 Testing Setup
+
+- **Environment:** jsdom  
+- **Setup File:** `jest.setup.ts` (executed after environment setup)  
+- **Testing Tools:**  
+  - `@testing-library/react`  
+  - `@testing-library/jest-dom`  
+  - `@testing-library/user-event`  
+
+Example command:
+```bash
+npm run test
+
+obssolution-test/
+├── src/                 # Source code (React + TypeScript)
+├── public/              # Static assets
+├── jest.config.cjs      # Jest configuration
+├── tsconfig.json        # TypeScript compiler settings
+├── eslint.config.js     # ESLint configuration
+├── .prettierrc          # Prettier formatting rules
+├── package.json         # Project metadata & scripts
+├── index.html           # Root HTML file
+└── ...
+
+npx prettier --write .
