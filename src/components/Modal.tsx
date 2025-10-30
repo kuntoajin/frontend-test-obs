@@ -11,7 +11,9 @@ import { DetailUser } from '../types/user.type';
 import { FormEvent, useState } from 'react';
 
 export default function FormEdit() {
-  const { isModal, selectedUserById, type } = useSelector((state: RootState) => state.users);
+  const { isModal, selectedUserById, type, listUsers } = useSelector(
+    (state: RootState) => state.users
+  );
   const [isLoadingImage, setIsLoadingImage] = useState<boolean>(true);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -21,7 +23,8 @@ export default function FormEdit() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const formJson = Object.fromEntries((formData as any).entries()) as DetailUser;
     if (type === 'add') {
-      dispatch(usersSlice.actions.setAddUser({ id: selectedUserById.id, ...formJson }));
+      const nextId = (listUsers?.[0]?.id ?? 0) + 1;
+      dispatch(usersSlice.actions.setAddUser({ id: nextId, ...formJson }));
     } else if (type === 'edit') {
       dispatch(usersSlice.actions.setEditUser({ id: selectedUserById.id, ...formJson }));
     }

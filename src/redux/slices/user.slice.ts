@@ -10,7 +10,7 @@ export const usersSlice = createSlice({
       state.isLoading = action.payload;
     },
     setUser(state, action: PayloadAction<DetailUser[]>) {
-      state.listUsers = action.payload;
+      state.listUsers = action.payload.reverse();
     },
     setSelectedUser(state, action: PayloadAction<number | undefined>) {
       state.selectedUserById =
@@ -20,6 +20,7 @@ export const usersSlice = createSlice({
       state.isModal = action.payload;
     },
     setAddUser(state, action: PayloadAction<DetailUser>) {
+      console.log(action.payload);
       state.listUsers = [action.payload, ...state.listUsers];
     },
     setEditUser(state, action: PayloadAction<DetailUser>) {
