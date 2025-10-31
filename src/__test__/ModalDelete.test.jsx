@@ -3,13 +3,12 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import ModalDelete from '../components/ModalDelete';
 import { usersSlice } from '../redux/slices/user.slice';
-import type { RootState } from '../redux/store';
 
 const mockUseSelector = jest.fn();
 const mockUseDispatch = jest.fn();
 
 jest.mock('react-redux', () => ({
-  useSelector: (selector: RootState) => mockUseSelector(selector),
+  useSelector: selector => mockUseSelector(selector),
   useDispatch: () => mockUseDispatch,
 }));
 
@@ -48,7 +47,6 @@ describe('ModalDelete Component', () => {
     await userEvent.click(cancelButton);
 
     expect(mockUseDispatch).toHaveBeenCalledTimes(1);
-
     expect(mockUseDispatch).toHaveBeenCalledWith(usersSlice.actions.setModalDelete(false));
   });
 
@@ -62,9 +60,7 @@ describe('ModalDelete Component', () => {
     await userEvent.click(deleteButton);
 
     expect(mockUseDispatch).toHaveBeenCalledTimes(2);
-
     expect(mockUseDispatch).toHaveBeenNthCalledWith(1, usersSlice.actions.setDeleteUser());
-
     expect(mockUseDispatch).toHaveBeenNthCalledWith(2, usersSlice.actions.setModalDelete(false));
   });
 });

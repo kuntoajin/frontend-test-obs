@@ -3,14 +3,14 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { usersSlice } from '../redux/slices/user.slice';
 import type { AppDispatch, RootState } from '../redux/store';
 import { DetailUser } from '../types/user.type';
-import { FormEvent, useState } from 'react';
+import { FormEvent, JSX, useState } from 'react';
+import { Box, CircularProgress } from '@mui/material';
 
-export default function FormEdit() {
+export default function FormEdit(): JSX.Element {
   const { isModal, selectedUserById, type, listUsers } = useSelector(
     (state: RootState) => state.users
   );
@@ -42,23 +42,26 @@ export default function FormEdit() {
 
   return (
     <>
-      <Dialog open={isModal} onClose={() => dispatch(usersSlice.actions.setModalDelete(false))}>
-        <DialogTitle>{type?.charAt(0).toUpperCase() + type.slice(1)} User</DialogTitle>
+      <Dialog
+        open={isModal}
+        onClose={() => dispatch(usersSlice.actions.setModalDelete(false))}
+        id="modal-form"
+      >
         <DialogContent>
           {type === 'edit' && isLoadingImage && (
             <div
               style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: '#eee',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 fontSize: '12px',
-                color: '#666',
               }}
             >
-              Loading Gambar...
+              <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+              </Box>
             </div>
           )}
           {type === 'edit' && (

@@ -53,6 +53,12 @@ This project includes modern tooling for code quality (ESLint, Prettier), automa
 
 ---
 
+## Running the App
+
+```bash
+npm install && npm run prepare && npm run dev
+```
+
 ## 🧪 Testing Setup
 
 - **Environment:** jsdom  
@@ -62,7 +68,6 @@ This project includes modern tooling for code quality (ESLint, Prettier), automa
   - `@testing-library/jest-dom`  
   - `@testing-library/user-event`  
 
-Example command:
 ```bash
 npm run test
 
@@ -78,3 +83,5 @@ obssolution-test/
 └── ...
 
 npx prettier --write .
+```
+

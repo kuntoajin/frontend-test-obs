@@ -45,9 +45,6 @@ export const usersSlice = createSlice({
     setDeleteUser(state) {
       state.listUsers = state.listUsers.filter(item => item.email !== state.selectedUserById.email);
     },
-    // setError(state, action: PayloadAction<string | null>) {
-
-    // },
   },
 });
 

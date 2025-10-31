@@ -9,14 +9,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usersSlice } from '../redux/slices/user.slice';
 import type { AppDispatch, RootState } from '../redux/store';
 
-export default function ModalDelete() {
-    const { isDelete } = useSelector((state: RootState) => state.users);
-    const dispatch = useDispatch<AppDispatch>();
+export default function ModalDelete(): React.JSX.Element {
+  const { isDelete } = useSelector((state: RootState) => state.users);
+  const dispatch = useDispatch<AppDispatch>();
 
-    const handleDeleteUser = () => {
-        dispatch(usersSlice.actions.setDeleteUser());
-        dispatch(usersSlice.actions.setModalDelete(false));
-    }
+  const handleDeleteUser = () => {
+    dispatch(usersSlice.actions.setDeleteUser());
+    dispatch(usersSlice.actions.setModalDelete(false));
+  };
 
   return (
     <Dialog
@@ -25,9 +25,7 @@ export default function ModalDelete() {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        Delete user
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-title">Delete user</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           Are you sure you want to delete this user?

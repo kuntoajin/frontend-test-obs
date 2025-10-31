@@ -12,8 +12,7 @@ export const getUsersData = () => {
       dispatch(usersSlice.actions.setUser(data));
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
-        // dispatch(customerActions.setError(err.response?.data?.ErrorMessage));
-        // dispatch(loadingActions.setLoading(false));
+        console.error('Error fetching users data:', err.message);
       }
     } finally {
       dispatch(usersSlice.actions.setLoading(false));
