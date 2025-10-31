@@ -10,7 +10,7 @@ export const usersSlice = createSlice({
       state.isLoading = action.payload;
     },
     setUser(state, action: PayloadAction<DetailUser[]>) {
-      state.listUsers = action.payload;
+      state.listUsers = action.payload.reverse();
     },
     setSelectedUser(state, action: PayloadAction<number | undefined>) {
       state.selectedUserById =
@@ -20,14 +20,21 @@ export const usersSlice = createSlice({
       state.isModal = action.payload;
     },
     setAddUser(state, action: PayloadAction<DetailUser>) {
+      console.log(action.payload);
       state.listUsers = [action.payload, ...state.listUsers];
     },
     setEditUser(state, action: PayloadAction<DetailUser>) {
-      const getUserId = state.listUsers.findIndex(item => item.email === action.payload.email);
-      (Object.keys(action.payload) as (keyof DetailUser)[]).forEach(key => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (state.listUsers[getUserId] as any)[key] = action.payload[key];
-      });
+      const getUserId = state.listUsers.findIndex(item => item.id === action.payload.id);
+      if (getUserId < 0) return;
+
+      try {
+        (Object.keys(action.payload) as (keyof DetailUser)[]).forEach((key: keyof DetailUser) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (state.listUsers[getUserId] as any)[key] = action.payload[key];
+        });
+      } catch (error) {
+        console.error('Error updating user:', error);
+      }
     },
     setType(state, action: PayloadAction<'edit' | 'delete' | 'add' | ''>) {
       state.type = action.payload;
@@ -38,9 +45,6 @@ export const usersSlice = createSlice({
     setDeleteUser(state) {
       state.listUsers = state.listUsers.filter(item => item.email !== state.selectedUserById.email);
     },
-    // setError(state, action: PayloadAction<string | null>) {
-
-    // },
   },
 });
 

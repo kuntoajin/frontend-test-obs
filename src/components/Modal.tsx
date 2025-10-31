@@ -1,28 +1,32 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { usersSlice } from '../redux/slices/user.slice';
 import type { AppDispatch, RootState } from '../redux/store';
 import { DetailUser } from '../types/user.type';
+import { FormEvent, JSX, useState } from 'react';
+import { Box, CircularProgress } from '@mui/material';
 
-export default function FormEdit() {
-  const { isModal, selectedUserById, type } = useSelector((state: RootState) => state.users);
+export default function FormEdit(): JSX.Element {
+  const { isModal, selectedUserById, type, listUsers } = useSelector(
+    (state: RootState) => state.users
+  );
+  const [isLoadingImage, setIsLoadingImage] = useState<boolean>(true);
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const formJson = Object.fromEntries((formData as any).entries()) as DetailUser;
     if (type === 'add') {
-      dispatch(usersSlice.actions.setAddUser(formJson));
+      const nextId = (listUsers?.[0]?.id ?? 0) + 1;
+      dispatch(usersSlice.actions.setAddUser({ id: nextId, ...formJson }));
     } else if (type === 'edit') {
-      dispatch(usersSlice.actions.setEditUser(formJson));
+      dispatch(usersSlice.actions.setEditUser({ id: selectedUserById.id, ...formJson }));
     }
 
     dispatch(usersSlice.actions.setIsModal(false));
@@ -32,14 +36,43 @@ export default function FormEdit() {
     dispatch(usersSlice.actions.setIsModal(false));
   };
 
+  const handleImageLoad = () => {
+    setIsLoadingImage(false);
+  };
+
   return (
-    <React.Fragment>
-      <Dialog open={isModal} onClose={() => dispatch(usersSlice.actions.setModalDelete(false))}>
-        <DialogTitle>Edit User</DialogTitle>
+    <>
+      <Dialog
+        open={isModal}
+        onClose={() => dispatch(usersSlice.actions.setModalDelete(false))}
+        id="modal-form"
+      >
         <DialogContent>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-            <img src={`https://picsum.photos/seed/${selectedUserById?.id}200/200`} alt="image" />
-          </div>
+          {type === 'edit' && isLoadingImage && (
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: '12px',
+              }}
+            >
+              <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+              </Box>
+            </div>
+          )}
+          {type === 'edit' && (
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <img
+                src={`https://picsum.photos/seed/${selectedUserById?.id}200/200`}
+                onLoad={handleImageLoad}
+                alt="image"
+              />
+            </div>
+          )}
           <form onSubmit={handleSubmit} id="subscription-form">
             <TextField
               autoFocus
@@ -110,6 +143,6 @@ export default function FormEdit() {
           </Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }
